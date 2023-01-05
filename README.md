@@ -17,4 +17,4 @@
 
 1. `pipenv install`
 1. `pipenv run start`
-1. ターミナルで一覧で
+1. ターミナルに一覧で出力される
