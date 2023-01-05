@@ -15,6 +15,6 @@
     複数クラスついてれば、全て抜き出す  
   `main.py` の入力箇所に、`HTMLタグ`、`class`をそれぞれ入力する
 
-1. pipenv install
-1. pipenv run start
+1. `pipenv install`
+1. `pipenv run start`
 1. ターミナルで一覧で
