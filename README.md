@@ -6,7 +6,7 @@
 # 前提条件
  - エディタを使える(VScode等)
  - pipenv がインストールされてる
-   `pip install pipenv` （[pipenvについて]）(https://zenn.dev/nekoallergy/articles/py-env-pipenv01)
+   `pip install pipenv` （[pipenvについて](https://zenn.dev/nekoallergy/articles/py-env-pipenv01)）
  - 検証ツールから、ほしい文字列のタグ・クラスを抜き出せる
 
 # 使い方
