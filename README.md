@@ -18,3 +18,7 @@
 1. `pipenv install`
 1. `pipenv run start`
 1. ターミナルに一覧で出力される
+
+
+# 今後
+Dockerfile作成して、Pythonや pipenvなくても動かせるよう対応します。
