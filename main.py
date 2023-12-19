@@ -45,10 +45,16 @@ if __name__ == '__main__':
     # current dir
     script_dir = os.path.dirname(__file__)
     dir_path = f"{script_dir}/output"
+    # TODO(to be fixed): CANNOT mkdirs Linux
     # if directory 'output' doesnt exist, mkdir
-    if not os.path.isdir(dir_path):
-        print("make output dir")
-        os.makedirs(dir_path, exist_ok=True)
+    # if not os.path.isdir(dir_path):
+    #     print("make output dir")
+    #     try:
+    #         original_umask = os.umask(0)
+    #         os.makedirs(dir_path, mode=755, exist_ok=True)
+    #     finally:
+    #         os.umask(original_umask)
+    #     # os.makedirs(dir_path, mode=0o777, exist_ok=True)
     rel_path = f"output/file_{d}.txt"
     abs_file_path = os.path.join(script_dir, rel_path)
 
