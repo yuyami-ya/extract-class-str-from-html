@@ -11,24 +11,27 @@ def show_front_page() -> Tuple[str, Dict]:
         st_input_area = st.container()
         st_add_button_area = st.container()
 
-        if st_add_button_area.form_submit_button("ADD FORM"):
+        if st_add_button_area.form_submit_button("ADD Condition"):
             st.session_state.criteria_list.append({
                 "tag": None,
                 "class": None,
                 "indent": 0
             })
 
-        if st_add_button_area.form_submit_button("REMOVE FORM"):
-            del st.session_state.criteria_list[-1]
+        if st_add_button_area.form_submit_button("REMOVE Condition"):
+            if len(st.session_state.criteria_list) > 0:
+                del st.session_state.criteria_list[-1]
+            else:
+                st.error("Specify at least one condition!")
 
         for i in range(len(st.session_state.criteria_list)):
             st_input_area.markdown("---")
-            st_input_area.text(f"条件 {i+1}")
+            st_input_area.text(f"Condition {i+1}")
             st.session_state.criteria_list[i]["tag"] = st_input_area.text_input("input HTML Tag name", key=i)
             st.session_state.criteria_list[i]["class"] = st_input_area.text_input("input HTML Class name", key=i+100)
             st.session_state.criteria_list[i]["indent"] = st_input_area.selectbox("indent(0~12)", (0,4,8,12), key=i+1000)
 
-        is_pushed = st.form_submit_button("abstract!!!")
+        is_pushed = st.form_submit_button("SAVE")
 
         if is_pushed:
             rtn_criteria_list = st.session_state.criteria_list
@@ -36,9 +39,9 @@ def show_front_page() -> Tuple[str, Dict]:
             if not is_valid:
                 st.error("tag or class must NOT be empty!")
             else:
-                st.success("Abstracting....")
-                st.write(rtn_criteria_list)
+                st.success("success saving condition! push SHOW button.")
                 st.session_state.input_html = input_html
+                return input_html, rtn_criteria_list
         else:
             pass
 

@@ -1,5 +1,3 @@
-import datetime
-import os
 import copy
 from bs4 import BeautifulSoup
 import streamlit as st
@@ -46,7 +44,6 @@ def abstruct_from_html():
         soup_elem = BeautifulSoup(str(bs_elem), 'html.parser')
         text = soup_elem.get_text(strip=True)
         output_space = '\u0020' * bs_elem_indent
-        print(f"{output_space}{text}")
         return_text += f"{output_space}{text}\n"
     
     return return_text
@@ -55,7 +52,7 @@ def abstruct_from_html():
 def main():
     return_text = None
     front_page.show_front_page()
-    if st.button("Show"):
+    if st.button("SHOW"):
         return_text = abstruct_from_html()
     if return_text:
         st.code(return_text)
