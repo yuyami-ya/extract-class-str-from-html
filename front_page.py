@@ -31,7 +31,7 @@ def show_front_page() -> Tuple[str, Dict]:
             st.session_state.criteria_list[i]["class"] = st_input_area.text_input("input HTML Class name", key=i+100)
             st.session_state.criteria_list[i]["indent"] = st_input_area.selectbox("indent(0~12)", (0,4,8,12), key=i+1000)
 
-        is_pushed = st.form_submit_button("save condition!!!")
+        is_pushed = st.form_submit_button("SAVE")
 
         if is_pushed:
             rtn_criteria_list = st.session_state.criteria_list

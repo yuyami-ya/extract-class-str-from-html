@@ -52,7 +52,7 @@ def abstruct_from_html():
 def main():
     return_text = None
     front_page.show_front_page()
-    if st.button("Show"):
+    if st.button("SHOW"):
         return_text = abstruct_from_html()
     if return_text:
         st.code(return_text)
