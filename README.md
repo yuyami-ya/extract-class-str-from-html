@@ -16,9 +16,6 @@
 1. `SHOW` ボタンで、抽出開始
 1. 右上からクリップボードへコピーできる
 
-## 今後
-自前のサーバにデプロイし、IaCでデプロイを自動化させたい
-
 
 ---
 # An App for Extracting Text with Specific Classes from HTML
