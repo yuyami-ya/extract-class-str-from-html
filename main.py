@@ -1,31 +1,10 @@
-import datetime
-import os
+import copy
 from bs4 import BeautifulSoup
+import streamlit as st
 
+import front_page
 
-if __name__ == '__main__':
-    # -----------------
-    # 入力箇所
-    criteria_list = [
-        {
-            "tag": "span",
-            "class": "ld-topic-title",
-            "indent": 4
-        },
-        {
-            "tag": "div",
-            "class": "ld-item-title",
-            "indent": 0
-        }
-    ]
-    # -----------------
-
-    path = "./input.html"
-    html_str = None
-    with open(path) as f:
-        html_str = f.read()
-
-    # 入力内容に応じて, find_all()の条件を作成
+def extract_text_by_criteria(html_str, criteria_list):
     target_class_list = []
     target_tag_list = []
     for criteria_list_elem in criteria_list:
@@ -35,43 +14,52 @@ if __name__ == '__main__':
     soup = BeautifulSoup(html_str, "html.parser")
     elems = soup.find_all(target_tag_list , class_=target_class_list)
 
-    ### ファイル出力
-    # ファイル名に用いる日付取得
-    t_delta = datetime.timedelta(hours=9)
-    JST = datetime.timezone(t_delta, 'JST')
-    now = datetime.datetime.now(JST)
-    # YYYYMMDDhhmmss形式に書式化
-    d = now.strftime('%Y%m%d%H%M%S')
-    # current dir
-    script_dir = os.path.dirname(__file__)
-    dir_path = f"{script_dir}/output"
-    # TODO(to be fixed): CANNOT mkdirs Linux
-    # if directory 'output' doesnt exist, mkdir
-    # if not os.path.isdir(dir_path):
-    #     print("make output dir")
-    #     try:
-    #         original_umask = os.umask(0)
-    #         os.makedirs(dir_path, mode=755, exist_ok=True)
-    #     finally:
-    #         os.umask(original_umask)
-    #     # os.makedirs(dir_path, mode=0o777, exist_ok=True)
-    rel_path = f"output/file_{d}.txt"
-    abs_file_path = os.path.join(script_dir, rel_path)
+    return_text = ""
+    for bs_elem in elems:
+        bs_elem_tag = bs_elem.name
+        bs_elem_class = bs_elem.attrs["class"][0]
+        bs_elem_indent = 0
+        for c_l_elem in criteria_list:
+            c_l_elem_tag = c_l_elem.get("tag")
+            c_l_elem_class = c_l_elem.get("class")
+            if c_l_elem_tag == bs_elem_tag and c_l_elem_class == bs_elem_class:
+                bs_elem_indent = c_l_elem.get("indent")
+        soup_elem = BeautifulSoup(str(bs_elem), 'html.parser')
+        text = soup_elem.get_text(strip=True)
+        output_space = '\u0020' * bs_elem_indent
+        return_text += f"{output_space}{text}\n"
+    
+    return return_text
 
-    with open(abs_file_path, 'w') as f:
-        for bs_elem in elems:
-            # indent
-            bs_elem_tag = bs_elem.name
-            bs_elem_class = bs_elem.attrs["class"][0]
-            bs_elem_indent = 0
-            for c_l_elem in criteria_list:
-                c_l_elem_tag = c_l_elem.get("tag")
-                c_l_elem_class = c_l_elem.get("class")
-                if c_l_elem_tag == bs_elem_tag and c_l_elem_class == bs_elem_class:
-                    bs_elem_indent = c_l_elem.get("indent")
-            # 
-            soup_elem = BeautifulSoup(str(bs_elem), 'html.parser')
-            text = soup_elem.get_text(strip=True)
-            output_space = '\u0020' * bs_elem_indent
-            print(f"{output_space}{text}")
-            print(f"{output_space}{text}", file=f)
+def main():
+    st.markdown('''
+        # Extracting Text with Specific Classes from HTML
+
+        ## App Description
+        Extracts strings from tags with a specific class name in HTML and returns them as a list. For example, when studying on Udemy, extracting the table of contents and printing it can serve as a substitute for notes.
+
+        ## Prerequisites
+        - Able to extract targeted tags and classes using the browser's inspection tool (F12)
+
+        ## How to Use
+        1. Copy the body tag using the inspection tool and input it into "Enter HTML"
+        1. Copy the desired tag and class for the string and paste them into "Conditions"
+            1. Use the `ADD Condition` button to add more conditions
+            1. Use the `REMOVE Condition` button to delete the last condition
+        1. Use the `SAVE` button to save the conditions
+        1. Start extraction by clicking the `SHOW` button
+        1. Copy to clipboard from the top right corner
+    ''')
+    front_page.show_front_page()
+    extracted_text = ""
+    
+    if st.button("SHOW"):
+        html_content = copy.deepcopy(st.session_state.input_html)
+        criteria = copy.deepcopy(st.session_state.criteria_list)
+        extracted_text = extract_text_by_criteria(html_content, criteria)
+    
+    if extracted_text:
+        st.code(extracted_text)
+
+if __name__ == '__main__':
+    main()
