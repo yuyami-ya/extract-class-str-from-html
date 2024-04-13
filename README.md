@@ -1,4 +1,6 @@
 # Extracting Text with Specific Classes from HTML
+## URL
+https://miia-extract-from-html.streamlit.app/
 
 ## App Description
   Extracts strings from tags with a specific class name in HTML and returns them as a list. For example, when studying on Udemy, extracting the table of contents and printing it can serve as a substitute for notes.
