@@ -2,6 +2,9 @@
 ## URL
 https://miia-extract-from-html.streamlit.app/
 
+## Image
+![how-to-use animation](https://github.com/user-attachments/assets/75a09fdb-76e8-4087-95e9-6584d3d313a4)
+
 ## App Description
   Extracts strings from tags with a specific class name in HTML and returns them as a list. For example, when studying on Udemy, extracting the table of contents and printing it can serve as a substitute for notes.
 
